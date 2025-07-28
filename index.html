@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adagia</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
         * {
             margin: 0;
@@ -120,54 +119,6 @@
             animation: fadeIn 2s ease-out 1s forwards;
         }
 
-        /* Floating particles effect */
-        .particle {
-            position: absolute;
-            background: rgba(184, 134, 11, 0.1);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .particle:nth-child(1) {
-            width: 4px;
-            height: 4px;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .particle:nth-child(2) {
-            width: 6px;
-            height: 6px;
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-        }
-
-        .particle:nth-child(3) {
-            width: 3px;
-            height: 3px;
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        .particle:nth-child(4) {
-            width: 5px;
-            height: 5px;
-            top: 30%;
-            left: 70%;
-            animation-delay: 1s;
-        }
-
-        .particle:nth-child(5) {
-            width: 4px;
-            height: 4px;
-            top: 70%;
-            left: 90%;
-            animation-delay: 3s;
-        }
 
         /* Animations */
         @keyframes fadeInUp {
@@ -273,7 +224,8 @@
     <script>
         // Add subtle mouse movement effect
         // In your main JS file or inside <script> tags
-  // Interactive cursor effect
+ 
+    // Interactive cursor effect
         document.addEventListener('mousemove', (e) => {
             const cursor = document.querySelector('.cursor');
             if (!cursor) {
@@ -283,7 +235,7 @@
                     position: fixed;
                     width: 20px;
                     height: 20px;
-                    background: radial-gradient(circle, #ff3131, #ff3131);
+                    background: radial-gradient(circle, #FF3131 0%, rgba(255,49,49,0) 80%);
                     border-radius: 50%;
                     pointer-events: none;
                     z-index: 9999;
@@ -299,13 +251,13 @@
                 cursorElement.style.top = e.clientY - 10 + 'px';
             }
         });
-            
-
+   
         // Email click analytics (optional)
         document.querySelector('.email').addEventListener('click', () => {
             // Track email click if needed
             console.log('Email clicked');
         });
+        <a href="mailto:lisa@adagia.ai">lisa@adagia.ai</a>
     </script>
 </body>
 </html>
