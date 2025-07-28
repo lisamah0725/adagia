@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adagia AI - Event Planning Reimagined</title>
+    <title>Adagia</title>
     <style>
         * {
             margin: 0;
@@ -11,237 +11,164 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #FF0080;
-            --secondary: #8B5CF6;
-            --accent: #00D4FF;
-            --dark: #0A0A0A;
-            --dark-light: #1A1A1A;
-            --white: #FFFFFF;
-            --gray-100: #F8F9FA;
-            --gray-300: #CBD5E1;
-            --gray-600: #64748B;
-            --gray-900: #0F172A;
-            
-            --gradient-primary: linear-gradient(135deg, #FF0080 0%, #8B5CF6 50%, #00D4FF 100%);
-            --gradient-dark: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
-            --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            
-            --shadow-glow: 0 0 40px rgba(255, 0, 128, 0.3);
-            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.1);
-            --shadow-elevated: 0 32px 64px rgba(0, 0, 0, 0.15);
-        }
-
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-
-        *::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        *::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        *::-webkit-scrollbar-thumb {
-            background: var(--gradient-primary);
-            border-radius: 4px;
-        }
-
         body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--white);
-            background: var(--dark);
-            overflow-x: hidden;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
         }
 
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
+        .background-pattern {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            opacity: 0.6;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="%23ffffff" opacity="0.08"/><circle cx="20" cy="20" r="0.3" fill="%23ffffff" opacity="0.04"/><circle cx="80" cy="30" r="0.4" fill="%23ffffff" opacity="0.06"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+            z-index: 1;
         }
 
-        .floating-orb {
+        .content {
+            z-index: 2;
+            position: relative;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .company-name {
+            font-size: clamp(64px, 12vw, 160px);
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 60px;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            line-height: 0.9;
+        }
+
+        .divider {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b8860b, transparent);
+            margin: 0 auto 60px;
+            opacity: 0.8;
+        }
+
+        .contact-info {
+            font-size: 24px;
+            color: #cccccc;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .email {
+            font-size: 28px;
+            color: #b8860b;
+            text-decoration: none;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .email::after {
+            content: '';
             position: absolute;
-            border-radius: 50%;
-            filter: blur(40px);
-            animation: float-orb 20s ease-in-out infinite;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #b8860b;
+            transition: width 0.4s ease;
         }
 
-        .orb-1 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 0, 128, 0.4) 0%, transparent 70%);
-            top: 10%;
-            right: 10%;
+        .email:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+            text-shadow: 0 8px 20px rgba(184, 134, 11, 0.3);
+        }
+
+        .email:hover::after {
+            width: 100%;
+        }
+
+        .tagline {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: #888;
+            letter-spacing: 3px;
+            font-weight: 300;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 1s forwards;
+        }
+
+        /* Floating particles effect */
+        .particle {
+            position: absolute;
+            background: rgba(184, 134, 11, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) {
+            width: 4px;
+            height: 4px;
+            top: 20%;
+            left: 10%;
             animation-delay: 0s;
         }
 
-        .orb-2 {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
-            bottom: 20%;
-            left: 10%;
-            animation-delay: -10s;
+        .particle:nth-child(2) {
+            width: 6px;
+            height: 6px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
         }
 
-        .orb-3 {
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.4) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
-            animation-delay: -5s;
+        .particle:nth-child(3) {
+            width: 3px;
+            height: 3px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
         }
 
-        @keyframes float-orb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.1); }
-            50% { transform: translate(-20px, 20px) scale(0.9); }
-            75% { transform: translate(40px, 10px) scale(1.05); }
+        .particle:nth-child(4) {
+            width: 5px;
+            height: 5px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 1s;
         }
 
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+        .particle:nth-child(5) {
+            width: 4px;
+            height: 4px;
+            top: 70%;
+            left: 90%;
+            animation-delay: 3s;
         }
 
-        header.scrolled {
-            background: rgba(10, 10, 10, 0.95);
-            box-shadow: var(--shadow-card);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 0;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 800;
-            background: var(--gradient-primary);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--white);
-            font-weight: 500;
-            font-size: 0.95rem;
-            position: relative;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::before {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .cta-btn {
-            background: var(--gradient-primary);
-            color: var(--white);
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);
-        }
-
-        .cta-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .cta-btn:hover::before {
-            left: 100%;
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 0, 128, 0.4);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            animation: fadeInUp 1s ease-out;
-        }
-
+        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -253,822 +180,115 @@
             }
         }
 
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            margin-bottom: 2rem;
-            line-height: 1.1;
-            background: var(--gradient-primary);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: textGlow 3s ease-in-out infinite alternate;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
-        @keyframes textGlow {
-            from { filter: drop-shadow(0 0 5px rgba(255, 0, 128, 0.3)); }
-            to { filter: drop-shadow(0 0 20px rgba(255, 0, 128, 0.6)); }
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--gray-300);
-            margin-bottom: 1rem;
-            font-weight: 300;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .hero-tagline {
-            font-size: 1.2rem;
-            color: var(--gray-600);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .hero-cta {
-            animation: fadeInUp 1s ease-out 0.9s both;
-        }
-
-        .hero-cta .cta-btn {
-            font-size: 1.1rem;
-            padding: 1rem 3rem;
-        }
-
-        /* Floating Cards Animation */
-        .floating-card {
-            position: absolute;
-            background: var(--gradient-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 1.5rem;
-            color: var(--white);
-            font-size: 0.9rem;
-            max-width: 200px;
-            animation: floatCard 8s ease-in-out infinite;
-        }
-
-        .floating-card-1 {
-            top: 20%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-
-        .floating-card-2 {
-            top: 60%;
-            right: 5%;
-            animation-delay: -4s;
-        }
-
-        @keyframes floatCard {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
-            50% { transform: translateY(-20px) rotate(2deg); opacity: 1; }
-        }
-
-        /* Sections */
-        section {
-            padding: 8rem 0;
-            position: relative;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 4rem;
-            background: var(--gradient-primary);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Value Props */
-        .value-props {
-            background: var(--dark-light);
-        }
-
-        .props-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-
-        .prop-card {
-            background: var(--gradient-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 3rem;
-            border-radius: 24px;
-            text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .prop-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s;
-        }
-
-        .prop-card:hover::before {
-            left: 100%;
-        }
-
-        .prop-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: var(--shadow-elevated);
-            border-color: rgba(255, 0, 128, 0.3);
-        }
-
-        .prop-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            position: relative;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 0, 128, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 0, 128, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 0, 128, 0); }
-        }
-
-        .prop-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--white);
-            font-weight: 700;
-        }
-
-        .prop-card p {
-            color: var(--gray-300);
-            line-height: 1.7;
-            font-size: 1.1rem;
-        }
-
-        /* Transformation Section */
-        .transformation {
-            background: var(--dark);
-            position: relative;
-        }
-
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 4rem;
-        }
-
-        .before, .after {
-            padding: 3rem;
-            border-radius: 24px;
-            backdrop-filter: blur(20px);
-            border: 2px solid;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .before {
-            background: linear-gradient(145deg, rgba(255, 87, 34, 0.1), rgba(211, 47, 47, 0.1));
-            border-color: rgba(255, 87, 34, 0.3);
-        }
-
-        .after {
-            background: linear-gradient(145deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.1));
-            border-color: rgba(76, 175, 80, 0.3);
-        }
-
-        .before:hover, .after:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow-elevated);
-        }
-
-        .before h3 {
-            color: #FF5722;
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .after h3 {
-            color: #4CAF50;
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .before p, .after p {
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-            color: var(--gray-300);
-        }
-
-        .before strong, .after strong {
-            color: var(--white);
-            font-weight: 600;
-        }
-
-        /* Team Section */
-        .team {
-            background: var(--dark-light);
-        }
-
-        .team-card {
-            max-width: 900px;
-            margin: 4rem auto;
-            background: var(--gradient-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 32px;
-            padding: 4rem;
-            text-align: center;
-            box-shadow: var(--shadow-card);
-            transition: all 0.4s ease;
-        }
-
-        .team-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-elevated);
-        }
-
-        .team-photo {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 4rem;
-            font-weight: 700;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .team-photo::before {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            border-radius: 50%;
-            background: var(--dark);
-            z-index: -1;
-        }
-
-        .team-card h3 {
-            font-size: 2.5rem;
-            color: var(--white);
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-        }
-
-        .team-card .title {
-            color: var(--primary);
-            font-style: italic;
-            margin-bottom: 2rem;
-            font-size: 1.3rem;
-            font-weight: 500;
-        }
-
-        .team-card p {
-            color: var(--gray-300);
-            line-height: 1.8;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .team-card strong {
-            color: var(--white);
-        }
-
-        /* Contact */
-        .contact {
-            background: var(--gradient-primary);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .contact-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .contact h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 2rem;
-            font-weight: 800;
-            color: var(--white);
-        }
-
-        .contact p {
-            font-size: 1.3rem;
-            margin-bottom: 3rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--white);
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 1rem 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .mobile-menu span {
-            width: 25px;
-            height: 3px;
-            background: var(--white);
-            border-radius: 3px;
-            transition: all 0.3s ease;
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+            33% {
+                transform: translateY(-20px) rotate(120deg);
+                opacity: 0.3;
+            }
+            66% {
+                transform: translateY(10px) rotate(240deg);
+                opacity: 0.2;
+            }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            .company-name {
+                font-size: 48px;
+                letter-spacing: 4px;
+                margin-bottom: 40px;
             }
-
-            .mobile-menu {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .floating-card {
-                display: none;
-            }
-
-            .comparison {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
+            
             .contact-info {
-                flex-direction: column;
-                gap: 1.5rem;
-                align-items: center;
+                font-size: 18px;
+                margin-bottom: 15px;
             }
-
-            .props-grid {
-                grid-template-columns: 1fr;
+            
+            .email {
+                font-size: 22px;
+            }
+            
+            .tagline {
+                font-size: 12px;
+                letter-spacing: 2px;
+                bottom: 40px;
+            }
+            
+            .container {
+                padding: 20px;
             }
         }
 
-        /* Scroll animations */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
+        @media (max-width: 480px) {
+            .company-name {
+                font-size: 36px;
+                letter-spacing: 2px;
+            }
+            
+            .email {
+                font-size: 18px;
+            }
+            
+            .contact-info {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation">
-        <div class="floating-orb orb-1"></div>
-        <div class="floating-orb orb-2"></div>
-        <div class="floating-orb orb-3"></div>
+    <div class="container">
+        <div class="background-pattern"></div>
+        
+        <!-- Floating particles -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        
+        <div class="content">
+            <h1 class="company-name">ADAGIA</h1>
+            <div class="divider"></div>
+            <p class="contact-info">To learn more</p>
+            <a href="mailto:lisa@adagia.ai" class="email">lisa@adagia.ai</a>
+        </div>
+        
+        <div class="tagline">Curating Excellence</div>
     </div>
 
-    <header id="header">
-        <nav class="container">
-            <a href="#" class="logo">Adagia AI</a>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="mobile-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <a href="#contact" class="cta-btn">Get Started</a>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Calm the Chaos.<br>Plan with Peace.</h1>
-                <p class="hero-subtitle">Event teams around the world are paddling furiously underneath, while trying to look calm on the surface.</p>
-                <p class="hero-tagline">Adagia takes care of the science of event planning and execution so you can focus on the art of it.</p>
-                <div class="hero-cta">
-                    <a href="#about" class="cta-btn">Discover How</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="floating-card floating-card-1">
-            <strong>ROI Focused</strong><br>
-            Turn events into measurable business outcomes
-        </div>
-        <div class="floating-card floating-card-2">
-            <strong>AI Powered</strong><br>
-            Smart automation for seamless execution
-        </div>
-    </section>
-
-    <section class="value-props scroll-reveal" id="about">
-        <div class="container">
-            <h2 class="section-title">Transform Your Event Strategy</h2>
-            <div class="props-grid">
-                <div class="prop-card">
-                    <div class="prop-icon">📈</div>
-                    <h3>ROI-Driven Outcomes</h3>
-                    <p>Turn events into tangible results across fundraising, brand visibility, and lead/sales conversions</p>
-                </div>
-                <div class="prop-card">
-                    <div class="prop-icon">🔄</div>
-                    <h3>Continuous Improvement</h3>
-                    <p>No need to start from scratch each time - make every event a foundation for the next</p>
-                </div>
-                <div class="prop-card">
-                    <div class="prop-icon">🧠</div>
-                    <h3>Cognitive Offload</h3>
-                    <p>With SOPs and smart automation, free up brain space for creativity and connection</p>
-                </div>
-                <div class="prop-card">
-                    <div class="prop-icon">⚡</div>
-                    <h3>Eliminate Redundancy</h3>
-                    <p>Work once, sync everywhere - less manual entry, duplicated effort, or missed updates</p>
-                </div>
-                <div class="prop-card">
-                    <div class="prop-icon">🔗</div>
-                    <h3>Closed-Loop Ecosystem</h3>
-                    <p>Connect every part of your event lifecycle - from planning to post-event communications</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="transformation scroll-reveal" id="services">
-        <div class="container">
-            <h2 class="section-title">Before & After Adagia</h2>
-            
-            <div class="comparison">
-                <div class="before">
-                    <h3>❌ Before: Chaos & Missed Opportunities</h3>
-                    <p><strong>Brand Awareness:</strong> The team is stuck in the weeds - juggling vendors, shifting timelines, and last-minute fire drills.</p>
-                    <p><strong>Lead Conversion:</strong> Events happen, people attend... but then what? High-quality leads slip through the cracks.</p>
-                    <p><strong>Fundraising:</strong> The impact of events on deal flow is hard to measure. LP updates stay anecdotal.</p>
-                    <p><strong>Networking:</strong> Lots of missed connections. Follow-ups are manual, inconsistent, and hard to scale.</p>
-                </div>
-                
-                <div class="after">
-                    <h3>✨ After: Strategic & Streamlined</h3>
-                    <p><strong>Brand Focus:</strong> The team reclaims time to focus on deepening relationships and delivering unforgettable experiences.</p>
-                    <p><strong>Strategic Funnel:</strong> Events become a strategic funnel - capturing the right people and turning interests into conversations.</p>
-                    <p><strong>Measurable Impact:</strong> Clean, compelling data shows LPs exactly how events support sourcing and portfolio growth.</p>
-                    <p><strong>Automated Nurturing:</strong> Stakeholders are mapped and activated through thoughtful, automated workflows.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="team scroll-reveal" id="team">
-        <div class="container">
-            <h2 class="section-title">Meet Your Strategic Partner</h2>
-            <div class="team-card">
-                <div class="team-photo">LM</div>
-                <h3>Lisa Mah</h3>
-                <p class="title">"My goal is to build elegant, repeatable processes - so you can focus on delivering excellent results."</p>
-                <p><strong>Proven Strategist & Operator:</strong> Former Director of Ventures and Acting Managing Director at CDL HQ, with 6+ years leading high-impact events and streamlining complex operational workflows.</p>
-                <br>
-                <p><strong>Versatile Event Leadership:</strong> From exclusive private gatherings with high-profile stakeholders to high-energy events with 200+ entrepreneurs - delivered with equal precision and creativity.</p>
-                <br>
-                <p><strong>Ecosystem Insider:</strong> Deep understanding of the startup and investor landscape enables well-targeted experiences and systems.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="contact scroll-reveal" id="contact">
-        <div class="container">
-            <div class="contact-content">
-                <h2>Ready to Transform Your Events?</h2>
-                <p>Let's discuss how Adagia can bring peace to your event planning process</p>
-                <div class="contact-info">
-                    <a href="tel:+17788371008" class="contact-item">
-                        📞 +1 778-837-1008
-                    </a>
-                    <a href="mailto:lisa@adagia.ai" class="contact-item">
-                        ✉️ lisa@adagia.ai
-                    </a>
-                    <a href="https://linkedin.com/in/lisayeonjumah" class="contact-item" target="_blank">
-                        💼 LinkedIn
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <script>
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Scroll reveal animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.scroll-reveal').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add hover effects to cards
-        document.querySelectorAll('.prop-card, .team-card, .before, .after').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-            });
-        });
-
-        // Parallax effect for floating orbs
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const orbs = document.querySelectorAll('.floating-orb');
-            
-            orbs.forEach((orb, index) => {
-                const speed = 0.5 + (index * 0.1);
-                orb.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
-
-        // Interactive cursor effect
+        // Add subtle mouse movement effect
         document.addEventListener('mousemove', (e) => {
-            const cursor = document.querySelector('.cursor');
-            if (!cursor) {
-                const newCursor = document.createElement('div');
-                newCursor.className = 'cursor';
-                newCursor.style.cssText = `
-                    position: fixed;
-                    width: 20px;
-                    height: 20px;
-                    background: radial-gradient(circle, rgba(255,0,128,0.8), rgba(139,92,246,0.6));
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: 9999;
-                    transition: transform 0.1s ease;
-                    mix-blend-mode: difference;
-                `;
-                document.body.appendChild(newCursor);
-            }
+            const particles = document.querySelectorAll('.particle');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
             
-            const cursorElement = document.querySelector('.cursor');
-            if (cursorElement) {
-                cursorElement.style.left = e.clientX - 10 + 'px';
-                cursorElement.style.top = e.clientY - 10 + 'px';
-            }
-        });
-
-        // Add click ripple effect
-        document.querySelectorAll('.cta-btn, .prop-card, .contact-item').forEach(element => {
-            element.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
+            particles.forEach((particle, index) => {
+                const speed = (index + 1) * 0.5;
+                const xPos = x * speed;
+                const yPos = y * speed;
                 
-                ripple.style.cssText = `
-                    position: absolute;
-                    width: ${size}px;
-                    height: ${size}px;
-                    left: ${x}px;
-                    top: ${y}px;
-                    background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s ease-out;
-                    pointer-events: none;
-                `;
-                
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+                particle.style.transform += ` translate(${xPos}px, ${yPos}px)`;
             });
         });
 
-        // Add ripple animation keyframes
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(2);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Mobile menu toggle
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if (mobileMenu) {
-            mobileMenu.addEventListener('click', () => {
-                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.right = '0';
-                navLinks.style.background = 'rgba(10, 10, 10, 0.95)';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.padding = '2rem';
-                navLinks.style.backdropFilter = 'blur(20px)';
-                navLinks.style.borderTop = '1px solid rgba(255, 255, 255, 0.1)';
-            });
-        }
-
-        // Typing animation for hero title
-        const heroTitle = document.querySelector('.hero h1');
-        if (heroTitle) {
-            const text = heroTitle.textContent;
-            heroTitle.textContent = '';
-            heroTitle.style.borderRight = '2px solid #FF0080';
-            
-            let i = 0;
-            const typeWriter = () => {
-                if (i < text.length) {
-                    heroTitle.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 100);
-                } else {
-                    setTimeout(() => {
-                        heroTitle.style.borderRight = 'none';
-                    }, 1000);
-                }
-            };
-            
-            setTimeout(typeWriter, 1000);
-        }
-
-        // Performance optimization: Intersection Observer for animations
-        const animateOnScroll = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const element = entry.target;
-                    
-                    // Animate prop cards with stagger
-                    if (element.classList.contains('props-grid')) {
-                        const cards = element.querySelectorAll('.prop-card');
-                        cards.forEach((card, index) => {
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                            }, index * 150);
-                        });
-                    }
-                    
-                    // Animate comparison cards
-                    if (element.classList.contains('comparison')) {
-                        const before = element.querySelector('.before');
-                        const after = element.querySelector('.after');
-                        
-                        setTimeout(() => {
-                            before.style.opacity = '1';
-                            before.style.transform = 'translateX(0)';
-                        }, 200);
-                        
-                        setTimeout(() => {
-                            after.style.opacity = '1';
-                            after.style.transform = 'translateX(0)';
-                        }, 400);
-                    }
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '-50px'
-        });
-
-        // Initialize animations
-        document.querySelectorAll('.props-grid, .comparison').forEach(element => {
-            // Set initial states
-            if (element.classList.contains('props-grid')) {
-                element.querySelectorAll('.prop-card').forEach(card => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(50px)';
-                    card.style.transition = 'all 0.6s ease';
-                });
-            }
-            
-            if (element.classList.contains('comparison')) {
-                const before = element.querySelector('.before');
-                const after = element.querySelector('.after');
-                
-                before.style.opacity = '0';
-                before.style.transform = 'translateX(-50px)';
-                before.style.transition = 'all 0.6s ease';
-                
-                after.style.opacity = '0';
-                after.style.transform = 'translateX(50px)';
-                after.style.transition = 'all 0.6s ease';
-            }
-            
-            animateOnScroll.observe(element);
+        // Email click analytics (optional)
+        document.querySelector('.email').addEventListener('click', () => {
+            // Track email click if needed
+            console.log('Email clicked');
         });
     </script>
 </body>
