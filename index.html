@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adagia</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <style>
         * {
             margin: 0;
@@ -48,7 +49,7 @@
         }
 
         .company-name {
-            font-size: clamp(64px, 12vw, 160px);
+            font-size: clamp(32px, 6vw, 80px);
             font-weight: 300;
             letter-spacing: 8px;
             margin-bottom: 60px;
@@ -66,7 +67,7 @@
         }
 
         .contact-info {
-            font-size: 24px;
+            font-size: 20px;
             color: #cccccc;
             font-weight: 300;
             letter-spacing: 2px;
@@ -74,7 +75,7 @@
         }
 
         .email {
-            font-size: 28px;
+            font-size: 20px;
             color: #ff3131;
             text-decoration: none;
             font-weight: 400;
@@ -271,19 +272,34 @@
 
     <script>
         // Add subtle mouse movement effect
+        // In your main JS file or inside <script> tags
+  // Interactive cursor effect
         document.addEventListener('mousemove', (e) => {
-            const particles = document.querySelectorAll('.particle');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
+            const cursor = document.querySelector('.cursor');
+            if (!cursor) {
+                const newCursor = document.createElement('div');
+                newCursor.className = 'cursor';
+                newCursor.style.cssText = `
+                    position: fixed;
+                    width: 20px;
+                    height: 20px;
+                    background: radial-gradient(circle, #ff3131, #ff3131);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    transition: transform 0.1s ease;
+                    mix-blend-mode: difference;
+                `;
+                document.body.appendChild(newCursor);
+            }
             
-            particles.forEach((particle, index) => {
-                const speed = (index + 1) * 0.5;
-                const xPos = x * speed;
-                const yPos = y * speed;
-                
-                particle.style.transform += ` translate(${xPos}px, ${yPos}px)`;
-            });
+            const cursorElement = document.querySelector('.cursor');
+            if (cursorElement) {
+                cursorElement.style.left = e.clientX - 10 + 'px';
+                cursorElement.style.top = e.clientY - 10 + 'px';
+            }
         });
+            
 
         // Email click analytics (optional)
         document.querySelector('.email').addEventListener('click', () => {
